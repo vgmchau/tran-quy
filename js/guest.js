@@ -1,7 +1,6 @@
 import { util } from './util.js';
 import { audio } from './audio.js';
 import { theme } from './theme.js';
-import { session } from './session.js';
 import { storage } from './storage.js';
 import { confetti } from './confetti.js';
 
@@ -109,14 +108,6 @@ export const guest = (() => {
     };
 
     const init = () => {
-        if (session.isAdmin()) {
-            storage('user').clear();
-            storage('owns').clear();
-            storage('likes').clear();
-            storage('session').clear();
-            storage('comment').clear();
-            storage('tracker').clear();
-        }
 
         const presence = document.getElementById('form-presence');
         if (presence && information.get('presence') !== undefined) {
@@ -128,24 +119,6 @@ export const guest = (() => {
             info.remove();
         }
 
-        if ((document.body.getAttribute('data-key') ?? '').length === 0) {
-            const comment = document.getElementById('comment');
-            if (comment) {
-                comment.remove();
-            }
-
-            const nav = document.querySelector('a.nav-link[href="#comment"]');
-            if (nav) {
-                const item = nav.closest('li.nav-item');
-                if (item) {
-                    item.remove();
-                }
-            }
-
-            return;
-        }
-
-        session.guest();
         countDownDate();
     };
 
